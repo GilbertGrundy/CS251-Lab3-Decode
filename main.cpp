@@ -4,9 +4,10 @@ Assignment: Lab #3
 */
 
 #include <iostream>
+#include <fstream>
 #include <cstring>
 
-long long residue(int num, int mod, long long exponent);
+long long residue(long long num, long long mod, long long exponent);
 void find_residue(int &count, long long &a, long long k, long long n, long long &residue, long long &total);
 long long next_res(long long residue, long long mod);
 
@@ -17,7 +18,8 @@ int main(int argc, char ** argv)
 	long long num;
 	long long mod;
 	long long exponent;
-	FILE * read;
+	long long code;
+	ifstream read;
 
 	cout << "Gilbert Grundy CS251 Lab #3.\n";
     	
@@ -28,7 +30,38 @@ int main(int argc, char ** argv)
         	fprintf(stderr, "Codebreaker: Invalid amount of arguments.\n");
         	return -1;
     	}
-	
+
+	read.open(argv[1]);
+
+	if(!read.is_open())
+	{
+        	fprintf(stderr, "Codebreaker: File failed to open.\n");
+        	return -1;
+
+	}
+
+	read.ignore(5);
+
+	read >> mod;
+
+	read.ignore(7);
+
+	read >> exponent;	
+
+	while(!read.eof())
+	{
+		read >> num;
+		//cout << "read in num " << num << endl;
+
+		code = residue(num, mod, exponent);
+		//cout << "residue: " << code <<endl;
+
+		if(code == 27) cout << " ";
+		else if(code < 27) printf("%c", (char)(code + 96));
+		else cout << "#";
+
+	}
+	cout << "\n";
 	
 	return 0;
 }
