@@ -31,42 +31,50 @@ int main(int argc, char ** argv)
         	return -1;
     	}
 
+	//open the fil
 	read.open(argv[1]);
 
+	//if the file doesn't open, print an error and exit
 	if(!read.is_open())
 	{
         	fprintf(stderr, "Codebreaker: File failed to open.\n");
         	return -1;
-
 	}
 
+
+	//ignore the start of the file "pq = "	
 	read.ignore(5);
 
+	//read the value of pq, the value of the mod
 	read >> mod;
-
+	
+	//ignore part of the file "   d = "
 	read.ignore(7);
 
+	//read in the value of d, the exponent
 	read >> exponent;	
 
 	while(!read.eof())
-	{
+	{	//read in the value of C
 		read >> num;
-		//cout << "read in num " << num << endl;
 
+		//calculate the residue
 		code = residue(num, mod, exponent);
-		//cout << "residue: " << code <<endl;
 
-		if(code == 27) cout << " ";
+		//print out the character, # if the residue is 
+		//undefined in regards to the agreed code
+		if(code == 27) cout << " "; 
 		else if(code < 27) printf("%c", (char)(code + 96));
 		else cout << "#";
 
 	}
+
 	cout << "\n";
 	
 	return 0;
 }
 
-
+//wrapper function to find the residue
 long long residue(long long num, long long mod, long long exponent)
 {
 	long long residue = 0;	//residue of a^k mod n
