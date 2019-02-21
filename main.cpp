@@ -14,6 +14,11 @@ using namespace std;
 
 int main(int argc, char ** argv)
 {
+	long long num;
+	long long mod;
+	long long exponent;
+	FILE * read;
+
 	cout << "Gilbert Grundy CS251 Lab #3.\n";
     	
 	//checks if there is the correct amount of arguments
